@@ -1,4 +1,7 @@
 
+.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
+    :target: https://travis-ci.org/datakortet/yamldirs
+
 .. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
   :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
 
