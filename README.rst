@@ -69,15 +69,18 @@ The yaml syntax to create a single file::
 
     foo.txt
 
+
 a single file containing the text `hello world`::
 
     foo.txt: |
         hello world
 
+
 creating two (empty) files::
 
     - foo.txt
     - bar.txt
+
 
 two files with content::
 
@@ -86,11 +89,13 @@ two files with content::
     - bar.txt |
         world
 
+
 directory with two (empty) files::
 
     foo:
         - bar
         - baz
+
 
 empty directory (must be the literal string ``empty``::
 
@@ -106,6 +111,7 @@ nested directories with files::
         - bar:
             - b.txt: |
                 contents of the file named b.txt
+
 
 Extending yamldirs
 ------------------

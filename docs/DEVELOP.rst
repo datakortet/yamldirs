@@ -21,7 +21,8 @@ Uploading to PyPI
 
 - create a documentation bundle to upload to PyPi::
 
-    cd build/sphinx/html && zip -r ../../../pypi-docs.zip *
+    python setup.py build_sphinx
+    python setup.py upload_docs
 
 
 .. note:: if you're using this as a template for new projects, remember to
