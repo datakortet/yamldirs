@@ -1,3 +1,8 @@
+
+.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
+
+
 yamldirs
 ========
 
