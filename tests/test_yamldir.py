@@ -48,6 +48,24 @@ def test_create_files():
         ]
 
 
+def test_create_files():
+    fdef = """
+        - foo.txt: |
+            hello
+        - bar.txt: |
+            world
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        assert tree(workdir) == [
+            os.path.join(workdir, 'bar.txt'),
+            os.path.join(workdir, 'foo.txt')
+        ]
+        assert open(os.path.join(workdir, 'foo.txt')).read() == 'hello\n'
+        assert open(os.path.join(workdir, 'bar.txt')).read() == 'world\n'
+
+
 def test_create_directory():
     fdef = """
         bar:

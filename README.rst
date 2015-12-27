@@ -84,9 +84,9 @@ creating two (empty) files::
 
 two files with content::
 
-    - foo.txt |
+    - foo.txt: |
         hello
-    - bar.txt |
+    - bar.txt: |
         world
 
 
