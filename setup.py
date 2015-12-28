@@ -18,7 +18,7 @@ import setuptools
 from distutils.core import setup, Command
 from setuptools.command.test import test as TestCommand
 
-version = '1.0.2'
+version = '1.0.3'
 
 
 class PyTest(TestCommand):
@@ -49,6 +49,7 @@ setup(
     install_requires=[],
     author='Bjorn Pettersen',
     author_email='bp@datakortet.no',
+    url='https://github.com/datakortet/yamldirs',
     description=__doc__.strip(),
     classifiers=[line for line in classifiers.split('\n') if line],
     long_description=open('README.rst').read(),
