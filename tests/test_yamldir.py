@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import textwrap
 
 from yamldirs import create_files
 
@@ -32,6 +33,40 @@ def test_create_file_content():
         print tree(workdir)
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert open(os.path.join(workdir, 'foo.txt')).read() == 'hello world\n'
+
+
+def test_create_file_content2():
+    fdef = """
+        foo.txt: hello world
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
+        assert open(os.path.join(workdir, 'foo.txt')).read() == 'hello world'
+
+
+def test_create_file_multiline_content():
+    fdef = """
+        foo.txt: |
+            Lorem ipsum dolor sit amet, vis no altera doctus sanctus,
+            oratio euismod suscipiantur ne vix, no duo inimicus
+            adversarium. Et amet errem vis. Aeterno accusamus sed ei,
+            id eos inermis epicurei. Quo enim sonet iudico ea, usu
+            et possit euismod.
+    """
+    lorem = textwrap.dedent("""\
+        Lorem ipsum dolor sit amet, vis no altera doctus sanctus,
+        oratio euismod suscipiantur ne vix, no duo inimicus
+        adversarium. Et amet errem vis. Aeterno accusamus sed ei,
+        id eos inermis epicurei. Quo enim sonet iudico ea, usu
+        et possit euismod.
+        """)
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
+        assert open(os.path.join(workdir, 'foo.txt')).read() == lorem
 
 
 def test_create_files():

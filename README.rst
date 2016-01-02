@@ -72,9 +72,16 @@ The yaml syntax to create a single file::
 
 a single file containing the text `hello world`::
 
-    foo.txt: |
-        hello world
+    foo.txt: hello world
 
+for more text it is better to use a continuation line::
+
+    foo.txt: |
+        Lorem ipsum dolor sit amet, vis no altera doctus sanctus,
+        oratio euismod suscipiantur ne vix, no duo inimicus
+        adversarium. Et amet errem vis. Aeterno accusamus sed ei,
+        id eos inermis epicurei. Quo enim sonet iudico ea, usu
+        et possit euismod.
 
 creating two (empty) files::
 
