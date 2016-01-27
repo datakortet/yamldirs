@@ -1,2 +1,4 @@
 PyYAML==3.10
-pytest-cov
+coverage==4.0.3
+pytest==2.8.5
+pytest-cov==2.2.0
