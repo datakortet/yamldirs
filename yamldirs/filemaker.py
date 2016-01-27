@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import textwrap
+import warnings
 from contextlib import contextmanager
 import os
 import shutil
@@ -50,8 +52,27 @@ class FilemakerBase(object):
         for item in lst:
             self._makefiles(item)
 
+    def _make_dict(self, dct):
+        for k, v in dct.items():
+            if isinstance(v, list):
+                self.makedir(dirname=k, content=v)
+            elif isinstance(v, basestring):
+                self._make_file(filename=k, content=v)
+            else:  # pragma: nocover
+                raise ValueError("Unexpected:", k, v)
+
     def _make_empty_file(self, fname):
         # special handling to create empty directories.
+        if fname == 'empty':
+            msg = textwrap.dedent("""
+            To create an empty directory use an empty list:
+
+                dirname: []
+
+            this syntax (single item list containing `empty`) is deprecated
+            and will be removed in the next major version.
+            """)
+            warnings.warn(msg, DeprecationWarning)
         if fname != 'empty':
             self.make_empty_file(fname)
 
@@ -63,13 +84,7 @@ class FilemakerBase(object):
 
     def _makefiles(self, f):
         if isinstance(f, dict):
-            for k, v in f.items():
-                if isinstance(v, list):
-                    self.makedir(dirname=k, content=v)
-                elif isinstance(v, basestring):
-                    self._make_file(filename=k, content=v)
-                else:  # pragma: nocover
-                    raise ValueError("Unexpected:", k, v)
+            self._make_dict(f)
         elif isinstance(f, basestring):
             self._make_file(f)
         elif isinstance(f, list):

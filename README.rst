@@ -39,7 +39,7 @@ The most common usage scenario for testing will typically look like this::
         with create_files(files) as workdir:
             # workdir is now created inside the os's temp folder, containing
             # 4 files, of which two are empty and two contain import
-            # statements.
+            # statements. Current directory is workdir.
 
         # `workdir` is automatically removed after the with statement.
 
@@ -69,12 +69,14 @@ The yaml syntax to create a single file::
 
     foo.txt
 
-
-a single file containing the text `hello world`::
+Files with contents uses the YAML record (associative array) syntax with the
+field name (left of colon+space) is the file name, and the value is the file
+contents. Eg. a single file containing the text `hello world`::
 
     foo.txt: hello world
 
-for more text it is better to use a continuation line::
+for more text it is better to use a continuation line (``|`` to keep line
+breaks and ``>`` to convert single newlines to spaces)::
 
     foo.txt: |
         Lorem ipsum dolor sit amet, vis no altera doctus sanctus,
@@ -83,13 +85,13 @@ for more text it is better to use a continuation line::
         id eos inermis epicurei. Quo enim sonet iudico ea, usu
         et possit euismod.
 
-creating two (empty) files::
+creating two (empty) files (YAML list syntax)::
 
     - foo.txt
     - bar.txt
 
 
-two files with content::
+two files with content (YAML list of records)::
 
     - foo.txt: |
         hello
@@ -97,17 +99,16 @@ two files with content::
         world
 
 
-directory with two (empty) files::
+directory with two (empty) files (YAML record field with list value)::
 
     foo:
         - bar
         - baz
 
 
-empty directory (must be the literal string ``empty``::
+an empty directory must use YAML's inline list syntax::
 
-    foo:
-        - empty
+    foo: []
 
 
 nested directories with files::
@@ -118,6 +119,11 @@ nested directories with files::
         - bar:
             - b.txt: |
                 contents of the file named b.txt
+
+
+.. note:: (Json)
+   YAML is a superset of json, so you can also use json syntax if that is more
+   convenient.
 
 
 Extending yamldirs

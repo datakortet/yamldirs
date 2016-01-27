@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 import textwrap
+import warnings
 
+import pytest
 from yamldirs import create_files
 
 
@@ -69,7 +71,7 @@ def test_create_file_multiline_content():
         assert open(os.path.join(workdir, 'foo.txt')).read() == lorem
 
 
-def test_create_files():
+def test_create_empty_files():
     fdef = """
         - foo.txt
         - bar.txt
@@ -112,10 +114,27 @@ def test_create_directory():
         assert tree(workdir) == [os.path.join(workdir, 'bar', 'foo.txt')]
 
 
-def test_empty_directory():
+def test_empty_directory(recwarn):
     fdef = """
         bar:
             - empty
+    """
+    warnings.simplefilter('always')  # catch DeprecationWarnings
+
+    with create_files(fdef, cleanup=True) as workdir:
+        assert os.listdir('.') == ['bar']
+        bardir = os.path.join(workdir, 'bar')
+        assert os.path.isdir(bardir)
+        os.chdir(bardir)
+        assert os.listdir('.') == []
+
+    assert len(recwarn) == 1
+    assert recwarn.pop(DeprecationWarning)
+
+
+def test_empty_directory2():
+    fdef = """
+        bar: []
     """
     with create_files(fdef, cleanup=True) as workdir:
         print "WORKDIR:", workdir
@@ -139,5 +158,25 @@ def test_nested_directory():
         bardir = os.path.join(workdir, 'foo', 'bar')
         assert os.path.isdir(foodir)
         assert os.path.isdir(bardir)
-        assert os.listdir(foodir) == ['a', 'bar']
+        assert set(os.listdir(foodir)) == {'a', 'bar'}
+        assert os.listdir(bardir) == ['b']
+
+
+def test_nested_directory_json():
+    fdef = """
+        {
+            "foo": [
+                "a",
+                "bar": ["b"]
+            ]
+        }
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        foodir = os.path.join(workdir, 'foo')
+        bardir = os.path.join(workdir, 'foo', 'bar')
+        assert os.path.isdir(foodir)
+        assert os.path.isdir(bardir)
+        assert set(os.listdir(foodir)) == {'a', 'bar'}
         assert os.listdir(bardir) == ['b']
