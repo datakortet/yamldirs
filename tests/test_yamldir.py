@@ -23,6 +23,8 @@ def test_create_file():
         print "WORKDIR:", workdir
         print tree(workdir)
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
+        assert os.path.isfile('foo.txt')
+        assert open('foo.txt').read() == ""
 
 
 def test_create_file_content():
@@ -83,6 +85,21 @@ def test_create_empty_files():
             os.path.join(workdir, 'bar.txt'),
             os.path.join(workdir, 'foo.txt')
         ]
+
+
+def test_create_empty_files2():
+    fdef = """
+        foo.txt: ""
+        bar.txt: ""
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        assert tree(workdir) == [
+            os.path.join(workdir, 'bar.txt'),
+            os.path.join(workdir, 'foo.txt')
+        ]
+        assert open('foo.txt').read() == ""
 
 
 def test_create_files():

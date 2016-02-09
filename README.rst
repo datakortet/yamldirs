@@ -22,6 +22,19 @@ Installation::
 Usage
 -----
 
+The YAML record syntax is::
+
+    fieldname: content
+    fieldname2: |
+        multi
+        line
+        content
+    nested:
+        record: content
+
+``yamldirs`` interprets a (possibly nested) yaml record structure and creates
+on-disk file structures that mirrors the yaml structure.
+
 The most common usage scenario for testing will typically look like this::
 
     from yamldirs import create_files
@@ -57,9 +70,9 @@ with-statement to::
     from yamldirs import Filemaker
 
     Filemaker('path/to/parent/directory', """
-        - foo.txt |
+        foo.txt: |
             hello
-        - bar.txt |
+        bar.txt: |
             world
     """)
 
@@ -85,18 +98,33 @@ breaks and ``>`` to convert single newlines to spaces)::
         id eos inermis epicurei. Quo enim sonet iudico ea, usu
         et possit euismod.
 
-creating two (empty) files (YAML list syntax)::
+To create empty files you can do::
+
+    foo.txt: ""
+    bar.txt: ""
+
+but as a convenience you can also use yaml list syntax::
 
     - foo.txt
     - bar.txt
 
 
-two files with content (YAML list of records)::
+For even more convenience, files with content can be created using lists
+of records with only one field each::
 
     - foo.txt: |
         hello
     - bar.txt: |
         world
+
+.. note:: This is equivalent to this json: ``[{"foo.txt": "hello"}, {"bar.txt": "world"}]``
+
+This is especially useful when you have a mix of empty and non-empty filess::
+
+    mymodule:
+        - __init__.py
+        - mymodule.py: |
+            print "hello world"
 
 
 directory with two (empty) files (YAML record field with list value)::
