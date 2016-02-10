@@ -61,3 +61,5 @@ target/
 .idea/dictionaries/*
 .idea/vagrant.xml
 .idea/workspace.xml
+*.py~
+.idea/workspace.xml
