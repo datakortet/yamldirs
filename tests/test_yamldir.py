@@ -131,22 +131,22 @@ def test_create_directory():
         assert tree(workdir) == [os.path.join(workdir, 'bar', 'foo.txt')]
 
 
-def test_empty_directory(recwarn):
-    fdef = """
-        bar:
-            - empty
-    """
-    warnings.simplefilter('always')  # catch DeprecationWarnings
-
-    with create_files(fdef, cleanup=True) as workdir:
-        assert os.listdir('.') == ['bar']
-        bardir = os.path.join(workdir, 'bar')
-        assert os.path.isdir(bardir)
-        os.chdir(bardir)
-        assert os.listdir('.') == []
-
-    assert len(recwarn) == 1
-    assert recwarn.pop(DeprecationWarning)
+# def test_empty_directory(recwarn):
+#     fdef = """
+#         bar:
+#             - empty
+#     """
+#     warnings.simplefilter('always')  # catch DeprecationWarnings
+#
+#     with create_files(fdef, cleanup=True) as workdir:
+#         assert os.listdir('.') == ['bar']
+#         bardir = os.path.join(workdir, 'bar')
+#         assert os.path.isdir(bardir)
+#         os.chdir(bardir)
+#         assert os.listdir('.') == []
+#
+#     assert len(recwarn) == 1
+#     assert recwarn.pop(DeprecationWarning)
 
 
 def test_empty_directory2():
@@ -177,6 +177,33 @@ def test_nested_directory():
         assert os.path.isdir(bardir)
         assert set(os.listdir(foodir)) == {'a', 'bar'}
         assert os.listdir(bardir) == ['b']
+
+
+def test_nested_directory2():
+    fdef = """
+        foo:
+            bar:
+                baz:
+                    hello: world
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+
+        foodir = os.path.join(workdir, 'foo')
+        assert os.path.isdir(foodir)
+
+        bardir = os.path.join(workdir, 'foo', 'bar')
+        assert os.path.isdir(bardir)
+        assert set(os.listdir(foodir)) == {'bar'}
+
+        bazdir = os.path.join(workdir, 'foo', 'bar', 'baz')
+        assert os.path.isdir(bazdir)
+        assert os.listdir(bazdir) == ['hello']
+
+        hello = os.path.join(bazdir, 'hello')
+        assert os.path.isfile(hello)
+        assert open(hello).read() == "world"
 
 
 def test_nested_directory_json():
