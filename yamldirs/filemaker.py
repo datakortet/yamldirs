@@ -95,6 +95,7 @@ def create_files(filedef, cleanup=True):
         if not cleanup:  # pragma: nocover
             pass
             # print "TMPDIR =", tmpdir
+        os.chdir(tmpdir)
         yield tmpdir
     finally:
         os.chdir(cwd)

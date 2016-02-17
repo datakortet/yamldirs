@@ -131,24 +131,6 @@ def test_create_directory():
         assert tree(workdir) == [os.path.join(workdir, 'bar', 'foo.txt')]
 
 
-# def test_empty_directory(recwarn):
-#     fdef = """
-#         bar:
-#             - empty
-#     """
-#     warnings.simplefilter('always')  # catch DeprecationWarnings
-#
-#     with create_files(fdef, cleanup=True) as workdir:
-#         assert os.listdir('.') == ['bar']
-#         bardir = os.path.join(workdir, 'bar')
-#         assert os.path.isdir(bardir)
-#         os.chdir(bardir)
-#         assert os.listdir('.') == []
-#
-#     assert len(recwarn) == 1
-#     assert recwarn.pop(DeprecationWarning)
-
-
 def test_empty_directory2():
     fdef = """
         bar: []
