@@ -131,6 +131,27 @@ def test_create_directory():
         assert tree(workdir) == [os.path.join(workdir, 'bar', 'foo.txt')]
 
 
+def test_mix_empty():
+    files = """
+        - a.py
+        - b:
+            - a.txt
+            - aa.txt
+        - d
+        - e:
+            - a:
+                - b
+        - f
+    """
+    with create_files(files) as workdir:
+        print "WORKDIR:", workdir
+        print tree(workdir)
+        print "LISTDIR:", os.listdir('.')
+        assert {os.path.relpath(d, workdir) for d in os.listdir('.')} == {
+            'a.py', 'b', 'd', 'e', 'f'
+        }
+
+
 def test_empty_directory2():
     fdef = """
         bar: []

@@ -70,7 +70,7 @@ class Filemaker(FilemakerBase):
 
     def pushd(self, dirname):
         dirname = os.path.abspath(dirname)
-        self._curdir.append(dirname)
+        self._curdir.append(os.getcwd())
         os.chdir(dirname)
 
     def popd(self):
