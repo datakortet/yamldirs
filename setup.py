@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """yamldirs - create directories and files (incl. contents) from yaml spec.
 """
 import sys
+from setuptools import setup
+from setuptools.command.test import test as TestCommand
+
 
 classifiers = """\
 Development Status :: 5 - Production/Stable
@@ -14,11 +16,7 @@ Programming Language :: Python :: 2.7
 Topic :: Software Development :: Libraries
 """
 
-import setuptools
-from distutils.core import setup, Command
-from setuptools.command.test import test as TestCommand
-
-version = '1.0.9'
+version = '1.1.0'
 
 
 class PyTest(TestCommand):
@@ -43,10 +41,9 @@ class PyTest(TestCommand):
 setup(
     name='yamldirs',
     version=version,
-    requires=[
+    install_requires=[
         'PyYAML'
     ],
-    install_requires=[],
     author='Bjorn Pettersen',
     author_email='bp@datakortet.no',
     url='https://github.com/datakortet/yamldirs',
