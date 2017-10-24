@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import os
 import textwrap
 import warnings
@@ -20,8 +21,8 @@ def test_create_file():
         foo.txt
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert os.path.isfile('foo.txt')
         assert open('foo.txt').read() == ""
@@ -33,8 +34,8 @@ def test_create_file_content():
             hello world
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert open(os.path.join(workdir, 'foo.txt')).read() == 'hello world\n'
 
@@ -44,8 +45,8 @@ def test_create_file_content2():
         foo.txt: hello world
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert open(os.path.join(workdir, 'foo.txt')).read() == 'hello world'
 
@@ -67,8 +68,8 @@ def test_create_file_multiline_content():
         et possit euismod.
         """)
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert open(os.path.join(workdir, 'foo.txt')).read() == lorem
 
@@ -79,8 +80,8 @@ def test_create_empty_files():
         - bar.txt
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [
             os.path.join(workdir, 'bar.txt'),
             os.path.join(workdir, 'foo.txt')
@@ -93,8 +94,8 @@ def test_create_empty_files2():
         bar.txt: ""
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [
             os.path.join(workdir, 'bar.txt'),
             os.path.join(workdir, 'foo.txt')
@@ -110,8 +111,8 @@ def test_create_files():
             world
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [
             os.path.join(workdir, 'bar.txt'),
             os.path.join(workdir, 'foo.txt')
@@ -126,8 +127,8 @@ def test_create_directory():
             - foo.txt
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         assert tree(workdir) == [os.path.join(workdir, 'bar', 'foo.txt')]
 
 
@@ -144,9 +145,9 @@ def test_mix_empty():
         - f
     """
     with create_files(files) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
-        print "LISTDIR:", os.listdir('.')
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        print("LISTDIR:", os.listdir('.'))
         assert {os.path.relpath(d, workdir) for d in os.listdir('.')} == {
             'a.py', 'b', 'd', 'e', 'f'
         }
@@ -157,8 +158,8 @@ def test_empty_directory2():
         bar: []
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         bardir = os.path.join(workdir, 'bar')
         assert os.path.isdir(bardir)
         assert os.listdir(bardir) == []
@@ -172,8 +173,8 @@ def test_nested_directory():
                 - b
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         foodir = os.path.join(workdir, 'foo')
         bardir = os.path.join(workdir, 'foo', 'bar')
         assert os.path.isdir(foodir)
@@ -190,8 +191,8 @@ def test_nested_directory2():
                     hello: world
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
 
         foodir = os.path.join(workdir, 'foo')
         assert os.path.isdir(foodir)
@@ -219,8 +220,8 @@ def test_nested_directory_json():
         }
     """
     with create_files(fdef, cleanup=True) as workdir:
-        print "WORKDIR:", workdir
-        print tree(workdir)
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
         foodir = os.path.join(workdir, 'foo')
         bardir = os.path.join(workdir, 'foo', 'bar')
         assert os.path.isdir(foodir)

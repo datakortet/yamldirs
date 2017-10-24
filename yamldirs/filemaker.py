@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import textwrap
 import warnings
 from contextlib import contextmanager
@@ -45,19 +46,19 @@ class FilemakerBase(object):
 
     # override the remaining methods.
     def mkdir(self, dirname):  # pragma: nocover
-        print "mkdir " + dirname
+        print("mkdir " + dirname)
 
     def pushd(self, dirname):  # pragma: nocover
-        print "pushd " + dirname
+        print("pushd " + dirname)
 
     def popd(self):  # pragma: nocover
-        print "popd"
+        print("popd")
 
     def make_file(self, filename, content):  # pragma: nocover
         """Create a new file with name ``filename`` and content ``content``.
            **Must be overridden.**
         """
-        print "create file: %s %r" % (filename, content)
+        print("create file: %s %r" % (filename, content))
 
 
 class Filemaker(FilemakerBase):
@@ -94,7 +95,7 @@ def create_files(filedef, cleanup=True):
         Filemaker(tmpdir, filedef)
         if not cleanup:  # pragma: nocover
             pass
-            # print "TMPDIR =", tmpdir
+            # print("TMPDIR =", tmpdir)
         os.chdir(tmpdir)
         yield tmpdir
     finally:
