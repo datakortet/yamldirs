@@ -8,6 +8,11 @@ import shutil
 import tempfile
 import yaml
 
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes)
+
 
 class FilemakerBase(object):
     """Override marked methods to do something useful.  Base class serves as
