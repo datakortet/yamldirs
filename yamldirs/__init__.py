@@ -2,4 +2,5 @@
 
 __version__ = '1.1.0'
 
-from .filemaker import create_files
+from .filemaker import create_files, UnknownType
+

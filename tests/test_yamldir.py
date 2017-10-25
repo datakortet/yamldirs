@@ -5,7 +5,7 @@ import textwrap
 import warnings
 
 import pytest
-from yamldirs import create_files
+from yamldirs import create_files, UnknownType
 
 
 def tree(root):
@@ -26,6 +26,59 @@ def test_create_file():
         assert tree(workdir) == [os.path.join(workdir, 'foo.txt')]
         assert os.path.isfile('foo.txt')
         assert open('foo.txt').read() == ""
+
+
+def test_number_filenames():
+    fdef = """
+        2: "hello"
+    """
+    with create_files(fdef, cleanup=True) as workdir :
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        assert tree(workdir) == [os.path.join(workdir, '2')]
+        assert open(os.path.join(workdir, '2')).read() == 'hello'
+
+
+def test_date_filenames():
+    fdef = """
+        2017-10-25: "hello"
+    """
+    with create_files(fdef, cleanup=True) as workdir :
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        assert tree(workdir) == [os.path.join(workdir, '2017-10-25')]
+        assert open(os.path.join(workdir, '2017-10-25')).read() == 'hello'
+
+
+def test_date_content():
+    fdef = """
+        foo: 2017-10-25
+    """
+    with create_files(fdef, cleanup=True) as workdir :
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        assert tree(workdir) == [os.path.join(workdir, 'foo')]
+        assert open(os.path.join(workdir, 'foo')).read() == '2017-10-25'
+
+
+def test_unknown_type():
+    fdef = """
+        - 2017-10-25T12:54:42.1Z
+    """
+    with pytest.raises(UnknownType):
+        with create_files(fdef, cleanup=True) as workdir :
+            pass
+
+
+def test_number_content():
+    fdef = """
+        2: 3
+    """
+    with create_files(fdef, cleanup=True) as workdir :
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        assert tree(workdir) == [os.path.join(workdir, '2')]
+        assert open(os.path.join(workdir, '2')).read() == '3'
 
 
 def test_create_file_content():
