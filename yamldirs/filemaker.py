@@ -9,7 +9,11 @@ import tempfile
 import yaml
 import numbers
 import datetime
-from types import NoneType
+
+try:
+    from types import NoneType
+except ImportError:
+    NoneType = type(None)
 
 try:               # pragma: nocover
     basestring
