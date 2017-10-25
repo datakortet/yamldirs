@@ -152,7 +152,7 @@ nested directories with files::
                 contents of the file named b.txt
 
 It's worth noting that you cannot mix record and list syntax in the same
-nesting level:
+nesting level::
 
     # wrong
     dir1:               # top-level record
@@ -162,7 +162,7 @@ nesting level:
             - file3
             - file4
 
-the solution is to make ``dir2`` a list item:
+the solution is to make ``dir2`` a list item::
 
     dir1:               
         - file1         
@@ -171,7 +171,7 @@ the solution is to make ``dir2`` a list item:
             - file3
             - file4
 
-the corresponding json is:
+the corresponding json is::
 
     >>> print json.dumps(yaml.load("""
     ... dir1:
@@ -194,7 +194,7 @@ the corresponding json is:
         ]
     }
 
-or make the first level (``b, c, d`` below) record fields:
+or make the first level (``b, c, d`` below) record fields::
 
     a:
         b: b
@@ -202,7 +202,7 @@ or make the first level (``b, c, d`` below) record fields:
         d:
 	    e: e
 
-corresponding json:
+corresponding json::
 
     >>> print json.dumps(yaml.load("""
     ... a:
