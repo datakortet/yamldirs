@@ -9,6 +9,7 @@ import tempfile
 import yaml
 import numbers
 import datetime
+from types import NoneType
 
 try:               # pragma: nocover
     basestring
@@ -64,10 +65,11 @@ class FilemakerBase(object):
     def make_dict_item(self, dct):
         for k, v in dct.items():
             k = self.value2str(k)
-            if isinstance(v, (list, dict)):
+            if isinstance(v, (list, dict, NoneType)):
                 self.mkdir(k)
                 self.pushd(k)
-                self._make_item(v)
+                if v is not None:
+                    self._make_item(v)
                 self.popd()
             else:
                 self.make_file(filename=k, content=self.value2str(v))

@@ -218,6 +218,18 @@ def test_empty_directory2():
         assert os.listdir(bardir) == []
 
 
+def test_empty_directoryw():
+    fdef = """
+        bar:
+    """
+    with create_files(fdef, cleanup=True) as workdir:
+        print("WORKDIR:", workdir)
+        print(tree(workdir))
+        bardir = os.path.join(workdir, 'bar')
+        assert os.path.isdir(bardir)
+        assert os.listdir(bardir) == []
+
+
 def test_nested_directory():
     fdef = """
         foo:

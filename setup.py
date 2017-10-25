@@ -20,7 +20,7 @@ Programming Language :: Python :: 3.6
 Topic :: Software Development :: Libraries
 """
 
-version = '1.1.2'
+version = '1.1.3'
 
 
 class PyTest(TestCommand):
