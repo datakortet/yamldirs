@@ -46,7 +46,7 @@ setup(
     name='yamldirs',
     version=version,
     install_requires=[
-        'PyYAML'
+        'PyYAML>4.2b1'
     ],
     author='Bjorn Pettersen',
     author_email='bp@datakortet.no',
