@@ -3,7 +3,7 @@
 """yamldirs - create directories and files (incl. contents) from yaml spec.
 """
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 
@@ -55,6 +55,6 @@ setup(
     classifiers=[line for line in classifiers.split('\n') if line],
     long_description=open('README.rst').read(),
     cmdclass={'test': PyTest},
-    packages=['yamldirs'],
+    packages=find_packages(),
     zip_safe=False,
 )
