@@ -5,7 +5,8 @@ import textwrap
 import warnings
 
 import pytest
-from yamldirs import create_files, UnknownType
+from yamldirs import create_files
+from yamldirs.filemaker import UnknownType
 
 
 def tree(root):

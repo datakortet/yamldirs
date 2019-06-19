@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import textwrap
-import warnings
 from contextlib import contextmanager
 import os
 import shutil
