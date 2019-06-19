@@ -7,11 +7,27 @@ import os
 import shutil
 import tempfile
 import yaml
+import numbers
+import datetime
 
 try:
+    from types import NoneType
+except ImportError:
+    NoneType = type(None)
+
+try:               # pragma: nocover
     basestring
-except NameError:
+except NameError:  # pragma: nocover
     basestring = (str, bytes)
+
+
+class YamlDirsException(Exception):
+    """Base class for YamlDirs exceptions.
+    """
+
+class UnknownType(YamlDirsException):
+    """Found a type that we don't know how to handle.
+    """
 
 
 class FilemakerBase(object):
@@ -24,16 +40,27 @@ class FilemakerBase(object):
         self.pushd(root)
         self._make_item(self.fdef)
 
+    def value2str(self, val):
+        if isinstance(val, basestring):
+            return val
+        elif isinstance(val, numbers.Number):
+            return str(val)
+        elif type(val) == datetime.date:  # datetimes are subclasses of dates.
+            return val.isoformat()
+        else:
+            raise UnknownType("Don't know what to do with %r of type %s" % (
+                val, type(val)
+            ))
+
     def _make_item(self, item):
         if isinstance(item, dict):
             return self.make_dict_item(item)
-        elif isinstance(item, basestring):
-            return self.make_string_item(item)
         elif isinstance(item, list):
             return self.make_list_item(item)
-
-    def make_string_item(self, s):
-        self.make_file(s, "")
+        else:
+            return self.make_file(
+                self.value2str(item), ""
+            )
 
     def make_list_item(self, lst):
         for item in lst:
@@ -41,13 +68,15 @@ class FilemakerBase(object):
 
     def make_dict_item(self, dct):
         for k, v in dct.items():
-            if isinstance(v, basestring):
-                self.make_file(filename=k, content=v)
-            else:
+            k = self.value2str(k)
+            if isinstance(v, (list, dict, NoneType)):
                 self.mkdir(k)
                 self.pushd(k)
-                self._make_item(v)
+                if v is not None:
+                    self._make_item(v)
                 self.popd()
+            else:
+                self.make_file(filename=k, content=self.value2str(v))
 
     # override the remaining methods.
     def mkdir(self, dirname):  # pragma: nocover

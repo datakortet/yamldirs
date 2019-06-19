@@ -78,6 +78,10 @@ with-statement to::
 
 Syntax
 ------
+If you're new to yaml and receive a ``yaml.parser`` error you don't understand,
+it might be useful to run your yaml through an online validater
+(e.g. https://codebeautify.org/yaml-validator).
+
 The yaml syntax to create a single file::
 
     foo.txt
@@ -107,7 +111,6 @@ but as a convenience you can also use yaml list syntax::
 
     - foo.txt
     - bar.txt
-
 
 For even more convenience, files with content can be created using lists
 of records with only one field each::
@@ -147,6 +150,76 @@ nested directories with files::
         - bar:
             - b.txt: |
                 contents of the file named b.txt
+
+It's worth noting that you cannot mix record and list syntax in the same
+nesting level::
+
+    # wrong
+    dir1:               # top-level record
+        - file1         # first level is a list..
+        - file2         # .. file1 and file2 are here empty files
+        dir2:           # <== ERROR: You cannot define a mapping item when in a sequence
+            - file3
+            - file4
+
+the solution is to make ``dir2`` a list item::
+
+    dir1:               
+        - file1         
+        - file2         
+        - dir2:    # <== Correct.
+            - file3
+            - file4
+
+the corresponding json is::
+
+    >>> print json.dumps(yaml.load("""
+    ... dir1:
+    ...   - file1
+    ...   - file2
+    ...   - dir2:
+    ...      - file3
+    ...      - file4
+    ... """), indent=4)
+    {
+        "dir1": [
+            "file1",
+            "file2",
+            {
+                "dir2": [
+                    "file3",
+                    "file4"
+                ]
+            }
+        ]
+    }
+
+or make the first level (``b, c, d`` below) record fields::
+
+    a:
+        b: b
+        c: c
+        d:
+	    e: e
+
+corresponding json::
+
+    >>> print json.dumps(yaml.load("""
+    ... a:
+    ...   b: b
+    ...   c: c
+    ...   d:
+    ...     e: e
+    ... """), indent=4)
+    {
+        "a": {
+            "c": "c",
+            "b": "b",
+            "d": {
+                "e": "e"
+            }
+        }
+    }
 
 
 .. note:: (Json)
