@@ -67,7 +67,7 @@ def test_unknown_type():
     """
     with pytest.raises(UnknownType):
         with create_files(fdef, cleanup=True) as workdir :
-            pass
+            pass  # pragma: nocover
 
 
 def test_number_content():

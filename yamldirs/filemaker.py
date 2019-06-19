@@ -10,9 +10,9 @@ import yaml
 import numbers
 import datetime
 
-try:
+try:                 # pragma: nocover
     from types import NoneType
-except ImportError:
+except ImportError:  # pragma: nocover
     NoneType = type(None)
 
 try:               # pragma: nocover
@@ -25,6 +25,7 @@ class YamlDirsException(Exception):
     """Base class for YamlDirs exceptions.
     """
 
+
 class UnknownType(YamlDirsException):
     """Found a type that we don't know how to handle.
     """
@@ -36,7 +37,7 @@ class FilemakerBase(object):
     """
 
     def __init__(self, root, fdef):
-        self.fdef = yaml.load(fdef)
+        self.fdef = yaml.load(fdef, Loader=yaml.SafeLoader)
         self.pushd(root)
         self._make_item(self.fdef)
 

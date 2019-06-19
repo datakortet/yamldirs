@@ -6,6 +6,10 @@
   :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
 
 
+.. image:: https://pepy.tech/badge/yamldirs
+   :target: https://pepy.tech/project/yamldirs
+   :alt: Downloads
+
 yamldirs
 ========
 
