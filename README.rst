@@ -23,6 +23,20 @@ Installation::
 
     pip install yamldirs
 
+**New in version 1.1.7:** a (very basic) ``yamldirs`` command has been added::
+
+    yamldirs dirname
+
+prints the yaml for the directory tree rooted at ``dirname`` (the formatting, while
+technically correct, probably needs some human editing). 
+
+To extract the directory tree defined by ``file.yaml``::
+
+    yamldirs file.yaml
+
+the extension needs to be exactly ``.yaml``.
+
+
 Usage
 -----
 
