@@ -20,7 +20,7 @@ Programming Language :: Python :: 3.6
 Topic :: Software Development :: Libraries
 """
 
-version = '1.1.6'
+version = '1.1.7'
 
 
 class PyTest(TestCommand):
@@ -55,6 +55,11 @@ setup(
     classifiers=[line for line in classifiers.split('\n') if line],
     long_description=open('README.rst').read(),
     cmdclass={'test': PyTest},
+    entry_points={
+        'console_scripts': [
+            'yamldirs = yamldirs.yamldirs_cmd:main',
+        ]
+    },
     packages=find_packages(),
     zip_safe=False,
 )

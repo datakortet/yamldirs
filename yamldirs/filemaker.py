@@ -120,7 +120,7 @@ class Filemaker(FilemakerBase):
 @contextmanager
 def create_files(filedef, cleanup=True):
     """Contextmanager that creates a directory structure from a yaml
-       descripttion.
+       description.
     """
     cwd = os.getcwd()
     tmpdir = tempfile.mkdtemp()
