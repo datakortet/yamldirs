@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import os
 import sys
 
-import yaml
+from ruamel.yaml import YAML
+from ruamel.yaml.scalarstring import LiteralScalarString
 from .filemaker import Filemaker
 
 
@@ -24,8 +26,13 @@ def directory2yaml(dirname):
         for part in parts[:-1]:
             cur.setdefault(part, {})
             cur = cur[part]
-        cur[parts[-1]] = open(filename).read().replace('\r\n', '\n').strip()
-    print yaml.dump(res)
+        txt = open(filename).read().replace('\r\n', '\n').strip()
+        if txt.count('\n') >= 1:
+            txt = LiteralScalarString(txt)
+        cur[parts[-1]] = txt
+    yaml = YAML()
+    yaml.default_flow_style = False
+    yaml.dump(res, sys.stdout)
 
 
 def reconstitute_directory(yamlfile):

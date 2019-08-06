@@ -4,7 +4,7 @@ from contextlib import contextmanager
 import os
 import shutil
 import tempfile
-import yaml
+from ruamel.yaml import YAML
 import numbers
 import datetime
 
@@ -35,7 +35,8 @@ class FilemakerBase(object):
     """
 
     def __init__(self, root, fdef):
-        self.fdef = yaml.load(fdef, Loader=yaml.SafeLoader)
+        yaml = YAML(typ='safe')
+        self.fdef = yaml.load(fdef)
         self.pushd(root)
         self._make_item(self.fdef)
 
