@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+
+import io
 import os
 import sys
 
@@ -27,7 +29,8 @@ def directory2yaml(dirname, stream=sys.stdout):
         for part in parts[:-1]:
             cur.setdefault(part, {})
             cur = cur[part]
-        txt = open(filename).read().replace('\r\n', '\n').strip()
+        with io.open(filename) as fp:
+            txt = fp.read().replace('\r\n', '\n').strip()
         if txt.count('\n') >= 1:
             txt = LiteralScalarString(txt)
         cur[parts[-1]] = txt

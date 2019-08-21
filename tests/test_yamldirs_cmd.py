@@ -18,15 +18,23 @@ def test_foo():
 def test_directory2yaml(capsys):
     os.chdir(DIRNAME)
     directory2yaml('testpkg', sys.stdout)
-    std = capsys.readouterr()
+    out, err = capsys.readouterr()
     # print("STD:OUT:", std.out)
-    assert std.out == textwrap.dedent(u"""\
+    option1 = out == textwrap.dedent(u"""\
         testpkg:
           foo.py: |-
             def foo():
                 return 42
           __init__.py: ''
           """)
+    option2 = out == textwrap.dedent(u"""\
+        testpkg:
+          __init__.py: ''
+          foo.py: |-
+            def foo():
+                return 42
+          """)
+    assert option1 or option2
 
 
 def test_reconstitute_directory():
