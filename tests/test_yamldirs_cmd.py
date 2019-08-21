@@ -19,9 +19,10 @@ def test_foo():
 
 def test_directory2yaml():
     os.chdir(DIRNAME)
-    with io.open('foo.tmp', 'w') as fp:
+    with io.open('foo.tmp', 'w', encoding='ascii') as fp:
         directory2yaml('testpkg', fp)
-    out = io.open('foo.tmp').read()
+    out = io.open('foo.tmp', encoding='ascii').read()
+    print("OUT:", out)
 
     option1 = out == textwrap.dedent(u"""\
         testpkg:
