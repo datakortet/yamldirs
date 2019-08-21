@@ -11,6 +11,7 @@ from .filemaker import Filemaker
 def tree(root):
     def _tree():
         for rt, dirs, files in os.walk(root):
+            # print(rt, dirs, files)
             for name in files:
                 if name.endswith('~'): continue
                 if name.startswith('.'): continue
@@ -18,7 +19,7 @@ def tree(root):
     return list(sorted(_tree()))
 
 
-def directory2yaml(dirname):
+def directory2yaml(dirname, stream=sys.stdout):
     res = {}
     for filename in tree(dirname):
         parts = filename.replace('\\', '/').split('/')
@@ -32,14 +33,14 @@ def directory2yaml(dirname):
         cur[parts[-1]] = txt
     yaml = YAML()
     yaml.default_flow_style = False
-    yaml.dump(res, sys.stdout)
+    yaml.dump(res, stream)
 
 
 def reconstitute_directory(yamlfile):
     Filemaker(os.getcwd(), open(yamlfile).read())
 
 
-def main():
+def main():     # pragma: nocover
     arg = sys.argv[1]
     if arg.endswith('.yaml'):
         reconstitute_directory(arg)

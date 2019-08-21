@@ -5,6 +5,7 @@
 
 import yamldirs
 import yamldirs.filemaker
+import yamldirs.yamldirs_cmd
 
 
 def test_import_():
@@ -12,3 +13,4 @@ def test_import_():
     
     assert yamldirs
     assert yamldirs.filemaker
+    assert yamldirs.yamldirs_cmd
