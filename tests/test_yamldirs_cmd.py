@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+
+import io
 import os
 import sys
 import textwrap
@@ -15,11 +17,12 @@ def test_foo():
     assert foo() == 42
 
 
-def test_directory2yaml(capsys):
+def test_directory2yaml():
     os.chdir(DIRNAME)
-    directory2yaml('testpkg', sys.stdout)
-    out, err = capsys.readouterr()
-    # print("STD:OUT:", std.out)
+    with io.open('foo.tmp', 'w') as fp:
+        directory2yaml('testpkg', fp)
+    out = io.open('foo.tmp').read()
+
     option1 = out == textwrap.dedent(u"""\
         testpkg:
           foo.py: |-
