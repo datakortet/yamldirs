@@ -19,6 +19,7 @@ def test_foo():
 
 def test_directory2yaml():
     os.chdir(DIRNAME)
+    print("DIRNAME:", DIRNAME)
     with io.open('foo.tmp', 'w', encoding='ascii') as fp:
         directory2yaml('testpkg', fp)
     out = io.open('foo.tmp', encoding='ascii').read()

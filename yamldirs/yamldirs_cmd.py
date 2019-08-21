@@ -29,8 +29,8 @@ def directory2yaml(dirname, stream=sys.stdout):
         for part in parts[:-1]:
             cur.setdefault(part, {})
             cur = cur[part]
-        with io.open(filename) as fp:
-            txt = fp.read().replace('\r\n', '\n').strip()
+        with io.open(filename, 'rb') as fp:
+            txt = fp.read().replace(b'\r\n', b'\n').decode('ascii').strip()
         if txt.count('\n') >= 1:
             txt = LiteralScalarString(txt)
         cur[parts[-1]] = txt
