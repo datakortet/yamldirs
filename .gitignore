@@ -11,10 +11,7 @@
 /builds
 /*.egg-info
 tests/__pycache__/
-.idea/misc.xml
-.idea/codeStyles/*
-.idea/deployment.xml
-.idea/markdown-navigator/*
+.idea
 .vscode/settings.json
 /cache/
 
