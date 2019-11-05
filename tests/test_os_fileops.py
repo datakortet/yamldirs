@@ -8,14 +8,12 @@ def test_cd_to_tempdir():
     """Test basic temp dir functionality.
     """
     initial_cwd = os.getcwd()
-    abspath_tmpdir = tempfile.mkdtemp()
+    abspath_tmpdir = os.path.realpath(tempfile.mkdtemp())
     try:
         assert os.path.isabs(abspath_tmpdir)
         os.chdir(abspath_tmpdir)
         curdir = os.getcwd()
         assert initial_cwd != curdir
-        print("CURDIR:", curdir, os.path.realpath(curdir))
-        print("TMPDIR:", abspath_tmpdir, os.path.realpath(abspath_tmpdir))
         assert curdir == abspath_tmpdir
     finally:
         os.chdir(initial_cwd)      # must exit directory..
@@ -25,7 +23,7 @@ def test_cd_to_tempdir():
 @contextmanager
 def tempdir():
     cwd = os.getcwd()
-    tmpdir = tempfile.mkdtemp()
+    tmpdir = os.path.realpath(tempfile.mkdtemp())
     try:
         os.chdir(tmpdir)
         yield tmpdir

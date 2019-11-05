@@ -124,7 +124,7 @@ def create_files(filedef, cleanup=True):
        description.
     """
     cwd = os.getcwd()
-    tmpdir = tempfile.mkdtemp()
+    tmpdir = os.path.realpath(tempfile.mkdtemp())
     try:
         Filemaker(tmpdir, filedef)
         if not cleanup:  # pragma: nocover
