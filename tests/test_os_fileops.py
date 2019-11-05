@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import tempfile
 from contextlib import contextmanager
@@ -13,6 +14,8 @@ def test_cd_to_tempdir():
         os.chdir(abspath_tmpdir)
         curdir = os.getcwd()
         assert initial_cwd != curdir
+        print("CURDIR:", curdir, os.path.realpath(curdir))
+        print("TMPDIR:", abspath_tmpdir, os.path.realpath(abspath_tmpdir))
         assert curdir == abspath_tmpdir
     finally:
         os.chdir(initial_cwd)      # must exit directory..
