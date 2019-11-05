@@ -24,13 +24,17 @@ def tree(root):
 def directory2yaml(dirname, stream=sys.stdout):
     res = {}
     for filename in tree(dirname):
+        if filename.endswith('.pyc'):
+            continue
         parts = filename.replace('\\', '/').split('/')
         cur = res
         for part in parts[:-1]:
             cur.setdefault(part, {})
             cur = cur[part]
         with io.open(filename, 'rb') as fp:
-            txt = fp.read().replace(b'\r\n', b'\n').decode('ascii').strip()
+            txt = fp.read()
+            # print("TXT:", txt)
+            txt = txt.replace(b'\r\n', b'\n').decode('ascii').strip()
         if txt.count('\n') >= 1:
             txt = LiteralScalarString(txt)
         cur[parts[-1]] = txt

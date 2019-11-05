@@ -40,6 +40,7 @@ def test_directory2yaml():
                 return 42
           """)
     assert option1 or option2
+    os.unlink('foo.tmp')
 
 
 def test_reconstitute_directory():
