@@ -3,6 +3,16 @@
 yamldirs - create directories and files (incl. contents) from yaml spec.
 ========================================================================
 
+.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
+    :target: https://travis-ci.org/datakortet/yamldirs
+
+.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
+
+.. image:: https://pepy.tech/badge/yamldirs
+   :target: https://pepy.tech/project/yamldirs
+   :alt: Downloads
+
 Create directories and files (including content) from yaml spec.
 
 This module was created to rapidly create, and clean up, directory trees
@@ -25,28 +35,7 @@ To extract the directory tree defined by ``file.yaml``::
 
 the extension needs to be exactly ``.yaml``.
 
-.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
-    :target: https://travis-ci.org/datakortet/yamldirs
 
-.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
-
-.. image:: https://pepy.tech/badge/yamldirs
-   :target: https://pepy.tech/project/yamldirs
-   :alt: Downloads
-
-.. image:: https://gitlab.com/norsktest/yamldirs/badges/master/pipeline.svg
-   :target: https://gitlab.com/norsktest/yamldirs/commits/master
-   :alt: pipeline status
-
-.. image:: https://img.shields.io/badge/docs-darkgreen.svg
-   :target: https://norsktest.gitlab.io/yamldirs
-   :alt: documentation
-
-.. image:: https://codecov.io/gl/norsktest/yamldirs/branch/master/graph/badge.svg?token=SPHAIM7X08
-  :target: https://codecov.io/gl/norsktest/yamldirs
-
-.. include:: badge-wheel.rst
 
 Usage
 -----
