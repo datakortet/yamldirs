@@ -231,7 +231,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'yamldirs', u'yamldirs Documentation',
-   u'', 'yamldirs', 'One line description of project.',
+   u'', 'yamldirs', 'create directories and files (incl. contents) from yaml spec.',
    'Miscellaneous'),
 ]
 

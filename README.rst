@@ -1,20 +1,9 @@
 
-.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
-    :target: https://travis-ci.org/datakortet/yamldirs
 
-.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
-
-
-.. image:: https://pepy.tech/badge/yamldirs
-   :target: https://pepy.tech/project/yamldirs
-   :alt: Downloads
-
-yamldirs
-========
+yamldirs - create directories and files (incl. contents) from yaml spec.
+========================================================================
 
 Create directories and files (including content) from yaml spec.
-
 
 This module was created to rapidly create, and clean up, directory trees
 for testing purposes.
@@ -36,6 +25,28 @@ To extract the directory tree defined by ``file.yaml``::
 
 the extension needs to be exactly ``.yaml``.
 
+.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
+    :target: https://travis-ci.org/datakortet/yamldirs
+
+.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
+
+.. image:: https://pepy.tech/badge/yamldirs
+   :target: https://pepy.tech/project/yamldirs
+   :alt: Downloads
+
+.. image:: https://gitlab.com/norsktest/yamldirs/badges/master/pipeline.svg
+   :target: https://gitlab.com/norsktest/yamldirs/commits/master
+   :alt: pipeline status
+
+.. image:: https://img.shields.io/badge/docs-darkgreen.svg
+   :target: https://norsktest.gitlab.io/yamldirs
+   :alt: documentation
+
+.. image:: https://codecov.io/gl/norsktest/yamldirs/branch/master/graph/badge.svg?token=SPHAIM7X08
+  :target: https://codecov.io/gl/norsktest/yamldirs
+
+.. include:: badge-wheel.rst
 
 Usage
 -----
@@ -74,14 +85,12 @@ The most common usage scenario for testing will typically look like this::
 
         # `workdir` is automatically removed after the with statement.
 
-
 If you don't want the workdir to disappear (typically the case if a test fails
 and you want to inspect the directory tree) you'll need to change the
 with-statement to::
 
     with create_files(files, cleanup=False) as workdir:
         ...
-
 
 ``yamldirs`` can of course be used outside of testing scenarios too::
 
@@ -147,18 +156,15 @@ This is especially useful when you have a mix of empty and non-empty filess::
         - mymodule.py: |
             print "hello world"
 
-
 directory with two (empty) files (YAML record field with list value)::
 
     foo:
         - bar
         - baz
 
-
 an empty directory must use YAML's inline list syntax::
 
     foo: []
-
 
 nested directories with files::
 
@@ -239,11 +245,9 @@ corresponding json::
         }
     }
 
-
 .. note:: (Json)
    YAML is a superset of json, so you can also use json syntax if that is more
    convenient.
-
 
 Extending yamldirs
 ------------------
