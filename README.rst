@@ -12,6 +12,11 @@ yamldirs - create directories and files (incl. contents) from yaml spec.
 .. image:: https://pepy.tech/badge/yamldirs
    :target: https://pepy.tech/project/yamldirs
    :alt: Downloads
+   
+.. image:: https://readthedocs.org/projects/yamldirs/badge/?version=latest
+   :target: https://yamldirs.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+         
 
 Create directories and files (including content) from yaml spec.
 
