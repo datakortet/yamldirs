@@ -3,22 +3,15 @@ include:
   - project: 'norsktest/dktools'
     file: '/ci-templates/dkbuild.yml'
 
-py27:
-  extends: .testpackage
-  script:
-    - dk testpackage --ci --tag=py27
-
 py35:
   extends: .testpackage
-  image: thebjorn/dktestpackage3:latest
-  after_script: []      
   script:
     - dk testpackage --ci --tag=py35
 
 coverage:
   dependencies:
-    - py27
+    - py35
 
 wheel:
   dependencies:
-    - py27
+    - py35
