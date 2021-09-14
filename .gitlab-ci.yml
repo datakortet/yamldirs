@@ -2,16 +2,3 @@
 include:
   - project: 'norsktest/dktools'
     file: '/ci-templates/dkbuild.yml'
-
-py35:
-  extends: .testpackage
-  script:
-    - dk testpackage --ci --tag=py35
-
-coverage:
-  dependencies:
-    - py35
-
-wheel:
-  dependencies:
-    - py35
