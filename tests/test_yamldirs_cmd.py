@@ -27,7 +27,7 @@ def test_directory2yaml():
 
     option1 = out == textwrap.dedent(u"""\
         testpkg:
-          foo.py: |-
+          foo.py: |
             def foo():
                 return 42
           __init__.py: ''
@@ -35,7 +35,7 @@ def test_directory2yaml():
     option2 = out == textwrap.dedent(u"""\
         testpkg:
           __init__.py: ''
-          foo.py: |-
+          foo.py: |
             def foo():
                 return 42
           """)
