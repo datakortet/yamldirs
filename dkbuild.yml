@@ -3,7 +3,7 @@ _schema: https://static.datakortet.no/schema/dkbuild.schema.yaml
 package:
   name: yamldirs
   description: create directories and files (incl. contents) from yaml spec.
-  version: 1.1.9
+  version: 1.1.11
   created: 2015
 
 build:
