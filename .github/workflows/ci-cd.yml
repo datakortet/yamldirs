@@ -42,16 +42,14 @@ jobs:
         # python-version: [ '3.9' ]
 
         os: [ubuntu-latest]
-        # include:
-        #   - python-version: '3.10.0-rc.2'
-        #     os: ubuntu-latest
-        #     experimental: true
         include:
           - python-version: '3.9'
             os: windows-latest
-        include:
           - python-version: '3.9'
             os: macos-latest
+        #   - python-version: '3.10.0-rc.2'
+        #     os: ubuntu-latest
+        #     experimental: true
 
 
     steps:
