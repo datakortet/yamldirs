@@ -1,0 +1,139 @@
+name: CI/CD Pipeline
+
+on: [ push, pull_request, workflow_dispatch ]
+
+env:
+  PIP_CACHE_DIR: /tmp/pipcache
+
+jobs:
+  ci-lint:
+    name: CI:Lint
+    runs-on: ubuntu-latest
+    env:
+      LINTDIR: ./ghlint
+    steps:
+      # setup environment
+      - uses: actions/checkout@v2
+      - name: setup directories
+        shell: bash
+        run: |
+          mkdir -p $PIP_CACHE_DIR
+          mkdir -p $LINTDIR
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - run: pip install flake8
+      - run: flake8 yamldirs/** --max-line-length=199
+
+  ci-test:
+    name: CI:Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+
+        # 2.7, 3.5-9  (current matrix)
+        # python-version: [ '2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+      
+        # 2.7, 3.6-10 (next matrix)
+        # python-version: [ '2.7', '3.6', '3.7', '3.8', '3.9', '3.10' ]
+
+        # for debugging
+        python-version: [ '3.9' ]
+
+        os: [ubuntu-latest] #, windows-latest]  #, macos-latest]
+        # include:
+        #   - python-version: '3.10.0-rc.2'
+        #     os: ubuntu-latest
+        #     experimental: true
+
+    steps:
+      # setup environment
+      - uses: actions/checkout@v2
+      - name: setup global directories
+        shell: bash
+        run: mkdir -p $PIP_CACHE_DIR
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - run: pip install -r requirements.txt
+      - run: pytest -vv --cov=yamldirs tests
+
+      - name: Upload coverage to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN}}
+          fail_ci_if_error: false
+
+  cd-build:
+    name: CD:Build
+    needs: ci-test
+    runs-on: ubuntu-latest
+    steps:
+      # setup environment
+      - uses: actions/checkout@v2
+      - name: setup directories
+        shell: bash
+        run: mkdir -p $PIP_CACHE_DIR
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Cleanup
+        run: |
+          rm -rf dist
+          rm -rf build
+
+      - run: pip install -U wheel packaging
+      - run: pip install -r requirements.txt
+      - run: python setup.py sdist bdist_wheel
+
+      - name: Upload packages as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Packages
+          path: dist/
+
+      # - name: Build docs
+      #   run: python setup.py build_sphinx
+
+      # - name: Upload docs as artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: Docs
+      #     path: build/sphinx/html/          
+
+  cd-deploy:
+    name: CD:Deploy
+    needs: cd-build
+    # on:
+    #   tags:
+    #     - v*
+    runs-on: ubuntu-latest
+    steps:
+      # - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Download and extract package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Packages
+          path: dist/          
+
+      - name: printenv
+        shell: python
+        run: |
+          import os,sys
+          print(sys.version_info)
+          for k, v in os.environ.items():
+              print(k, v)
+
+      - name: Package deployment
+        shell: bash
+        run: echo "twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*"
+        # run: |
+        #   twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*

@@ -7,7 +7,7 @@ end_of_line = lf
 [*.{txt,ini,cfg}]
 insert_final_newline = true
 
-[*.{js,py,html,json,yml,rst,md}]
+[*.{js,py,html,json,yml,yaml,rst,md}]
 end_of_line = lf
 indent_size = 4
 indent_style = space
