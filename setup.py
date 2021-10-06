@@ -20,7 +20,7 @@ Programming Language :: Python :: 3.8
 Topic :: Software Development :: Libraries
 """
 
-version = '1.1.8'
+version = '1.1.9'
 
 
 setup(
