@@ -91,7 +91,7 @@ jobs:
           rm -rf dist
           rm -rf build
 
-      - run: pip install -U wheel packaging
+      - run: pip install -U wheel packaging twine
       - run: pip install -r requirements.txt
       - run: python setup.py sdist bdist_wheel
 
@@ -111,13 +111,14 @@ jobs:
       #     path: build/sphinx/html/          
 
       - name: Deploy to PyPI
-        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        if: contains(github.ref, 'refs/tags/')
         shell: bash
         run: |
           twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*      
 
-      - uses: ncipollo/release-action@v1
-        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+      - name: Creat Github release
+        uses: ncipollo/release-action@v1
+        if: contains(github.ref, 'refs/tags/')
         with:
           artifacts: "dist/*"
           owner: datakortet
