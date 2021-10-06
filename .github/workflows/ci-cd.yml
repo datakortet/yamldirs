@@ -33,19 +33,19 @@ jobs:
       matrix:
 
         # 2.7, 3.5-9  (current matrix)
-        # python-version: [ '2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+        python-version: [ '2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
       
         # 2.7, 3.6-10 (next matrix)
         # python-version: [ '2.7', '3.6', '3.7', '3.8', '3.9', '3.10' ]
 
         # for debugging
-        python-version: [ '3.9' ]
+        # python-version: [ '3.9' ]
 
-        os: [ubuntu-latest] #, windows-latest]  #, macos-latest]
-        # include:
-        #   - python-version: '3.10.0-rc.2'
-        #     os: ubuntu-latest
-        #     experimental: true
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - python-version: '3.10.0-rc.2'
+            os: ubuntu-latest
+            experimental: true
 
     steps:
       # setup environment
@@ -67,8 +67,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN}}
           fail_ci_if_error: false
 
-  cd-build:
-    name: CD:Build
+  cd:
+    name: CD
     needs: ci-test
     runs-on: ubuntu-latest
     steps:
@@ -105,25 +105,8 @@ jobs:
       #     name: Docs
       #     path: build/sphinx/html/          
 
-  cd-deploy:
-    name: CD:Deploy
-    needs: cd-build
-    runs-on: ubuntu-latest
-    steps:
-      # - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-
-      - name: Download and extract package artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: Packages
-          path: dist/          
-
-      - name: Package deployment
+      - name: Deploy to PyPI
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         shell: bash
         run: |
-          twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*
+          twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*      
