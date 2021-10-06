@@ -2,5 +2,4 @@
 
 __version__ = '1.1.8'
 
-from .filemaker import create_files
-
+from .filemaker import create_files     # noqa

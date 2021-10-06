@@ -58,6 +58,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - run: pip install -r requirements.txt
+      - run: pip list
       - run: pytest -vv --cov=yamldirs tests
 
       - name: Upload coverage to codecov.io
@@ -107,9 +108,9 @@ jobs:
   cd-deploy:
     name: CD:Deploy
     needs: cd-build
-    # on:
-    #   tags:
-    #     - v*
+    on:
+      tags:
+        - v*
     runs-on: ubuntu-latest
     steps:
       # - uses: actions/checkout@v2
@@ -124,16 +125,7 @@ jobs:
           name: Packages
           path: dist/          
 
-      - name: printenv
-        shell: python
-        run: |
-          import os,sys
-          print(sys.version_info)
-          for k, v in os.environ.items():
-              print(k, v)
-
       - name: Package deployment
         shell: bash
-        run: echo "twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*"
-        # run: |
-        #   twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*
+        run: |
+          twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*

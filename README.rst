@@ -3,11 +3,13 @@
 yamldirs - create directories and files (incl. contents) from yaml spec.
 ========================================================================
 
-.. image:: https://travis-ci.org/datakortet/yamldirs.svg?branch=master
-    :target: https://travis-ci.org/datakortet/yamldirs
+.. image:: https://github.com/datakortet/yamldirs/actions/workflows/ci-cd.yml/badge.svg
+   :target: https://github.com/datakortet/yamldirs/actions/workflows/ci-cd.yml
 
-.. image:: https://coveralls.io/repos/datakortet/yamldirs/badge.svg?branch=master&service=github
-  :target: https://coveralls.io/github/datakortet/yamldirs?branch=master
+
+.. image:: https://codecov.io/gh/datakortet/yamldirs/branch/master/graph/badge.svg?token=rG43wgZ3aK
+   :target: https://codecov.io/gh/datakortet/yamldirs
+
 
 .. image:: https://pepy.tech/badge/yamldirs
    :target: https://pepy.tech/project/yamldirs

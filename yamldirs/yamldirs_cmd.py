@@ -15,8 +15,10 @@ def tree(root):
         for rt, dirs, files in os.walk(root):
             # print(rt, dirs, files)
             for name in files:
-                if name.endswith('~'): continue
-                if name.startswith('.'): continue
+                if name.endswith('~'):
+                    continue
+                if name.startswith('.'):
+                    continue
                 yield os.path.join(rt, name)
     return list(sorted(_tree()))
 
