@@ -108,9 +108,6 @@ jobs:
   cd-deploy:
     name: CD:Deploy
     needs: cd-build
-    on:
-      tags:
-        - v*
     runs-on: ubuntu-latest
     steps:
       # - uses: actions/checkout@v2
@@ -126,6 +123,7 @@ jobs:
           path: dist/          
 
       - name: Package deployment
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         shell: bash
         run: |
           twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*
