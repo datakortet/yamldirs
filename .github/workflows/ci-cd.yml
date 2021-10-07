@@ -4,6 +4,7 @@ on: [ push, pull_request, workflow_dispatch ]
 
 env:
   PIP_CACHE_DIR: /tmp/pipcache
+  HOME_REPO: datakortet/yamldirs
 
 jobs:
   ci-lint:
@@ -111,14 +112,14 @@ jobs:
       #     path: build/sphinx/html/          
 
       - name: Deploy to PyPI
-        if: contains(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository == env.HOME_REPO
         shell: bash
         run: |
           twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*      
 
-      - name: Creat Github release
+      - name: Create Github release
         uses: ncipollo/release-action@v1
-        if: contains(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository == env.HOME_REPO
         with:
           artifacts: "dist/*"
           owner: datakortet
