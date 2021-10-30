@@ -21,9 +21,11 @@ def tree(dirname, **kw):
             for d in exclude:
                 if d in dirs:
                     dirs.remove(d)
-            for name in files:  # noqa
-                if name in exclude: continue
-                if name.endswith('~'): continue
+            for name in files:
+                if name in exclude: 
+                    continue
+                if name.endswith('~'): 
+                    continue
                 if not kw.get('dot'):
                     if name.startswith('.'): continue
                 yield os.path.join(rt, name)
