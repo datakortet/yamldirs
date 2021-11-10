@@ -5,7 +5,6 @@ import io
 import os
 import sys
 import argparse
-from collections import OrderedDict
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
 from .filemaker import Filemaker
