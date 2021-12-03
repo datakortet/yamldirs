@@ -1,0 +1,7 @@
+build:
+  ruamel.yaml: ">=0.16.0"
+
+tests:
+  coverage: "5.5"
+  pytest: ">=4.6"
+  pytest-cov: ">=2.12.1"
