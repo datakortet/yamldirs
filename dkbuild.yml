@@ -8,3 +8,6 @@ package:
 
 build:
   venv: yamldirs
+
+requirements:
+  update: manual
