@@ -220,7 +220,7 @@ or make the first level (``b, c, d`` below) record fields::
         b: b
         c: c
         d:
-	    e: e
+            e: e
 
 corresponding json::
 
