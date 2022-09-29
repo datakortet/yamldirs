@@ -27,7 +27,8 @@ setup(
     name='yamldirs',
     version=version,
     install_requires=[
-        'ruamel.yaml'
+        'ruamel.yaml',
+        'oschmod',
     ],
     author='Bjorn Pettersen',
     author_email='bp@datakortet.no',
