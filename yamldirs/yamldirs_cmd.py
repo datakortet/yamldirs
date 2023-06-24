@@ -33,6 +33,8 @@ def tree(dirname, **kw):
                         continue
                     if name.endswith('~'):
                         continue
+                    if name.endswith('.pyc'):
+                        continue
                     if not kw.get('dot'):
                         if name.startswith('.'):
                             continue
@@ -58,7 +60,25 @@ def directories2yaml(dirname, stream=sys.stdout, **args):
     yaml.dump(res, stream)
 
 
-def directory2yaml(dirname, stream=sys.stdout, **args):
+def files2yaml(files):
+    res = {}
+    for filename in files:
+        parts = filename.replace('\\', '/').split('/')
+        cur = res
+        for part in parts[:-1]:
+            cur.setdefault(part, {})
+            cur = cur[part]
+        txt = ''
+        cur[parts[-1]] = txt
+    
+    yaml = YAML()
+    yaml.default_flow_style = False
+    stream = io.StringIO()
+    yaml.dump(res, stream)
+    return stream.getvalue()
+
+
+def directory2yaml(dirname, stream=sys.stdout, no_text=False, **args):
     res = {}
 
     for filename in tree(dirname, **args):
@@ -70,10 +90,12 @@ def directory2yaml(dirname, stream=sys.stdout, **args):
         for part in parts[:-1]:
             cur.setdefault(part, {})
             cur = cur[part]
-        with io.open(filename) as fp:
-            txt = fp.read()
-        if txt.count('\n') >= 1:
-            txt = LiteralScalarString(txt)
+        txt = ''
+        if not no_text:
+            with io.open(filename) as fp:
+                txt = fp.read()
+            if txt.count('\n') >= 1:
+                txt = LiteralScalarString(txt)
         cur[parts[-1]] = txt
 
     yaml = YAML()
@@ -91,6 +113,7 @@ def main():     # pragma: nocover
     p.add_argument('--dot', action='store_true', default=False, help="traverse files/directories starting with .")
     p.add_argument('--exclude', '-x', default=[], nargs="+", metavar="DIRNAME", help="directory to exclude")
     p.add_argument('--dirs-only', action='store_true', default=False, help="only store directories, not files.")
+    p.add_argument('--no-text', action='store_true', default=False, help="include text of files")
 
     args = p.parse_args()
     extracting = args.dirname.endswith('.yaml')
