@@ -22,7 +22,7 @@ jobs:
           mkdir -p $LINTDIR
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.13'
 
       - run: pip install flake8
       - run: flake8 yamldirs/** --max-line-length=199
@@ -34,16 +34,16 @@ jobs:
       matrix:
 
         # 2.7, 3.6-11 (next matrix)
-        python-version: [ '3.7', '3.8', '3.9', '3.10', '3.11' ]
+        python-version: [ '3.13', '3.14' ]
 
         # for debugging
         # python-version: [ '3.9' ]
 
         os: [ubuntu-latest]
         include:
-          - python-version: '3.9'
+          - python-version: '3.13'
             os: windows-latest
-          - python-version: '3.9'
+          - python-version: '3.13'
             os: macos-latest
         #   - python-version: '3.10.0-rc.2'
         #     os: ubuntu-latest
@@ -82,19 +82,19 @@ jobs:
         run: mkdir -p $PIP_CACHE_DIR
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.13'
 
       - name: Cleanup
         run: |
           rm -rf dist
           rm -rf build
 
-      - run: pip install -U wheel packaging twine
+      - run: pip install -U setuptools wheel packaging twine
       - run: pip install -r requirements.txt
       - run: python setup.py sdist bdist_wheel
 
       - name: Upload packages as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Packages
           path: dist/

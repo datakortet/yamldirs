@@ -45,7 +45,7 @@ class FilemakerBase(object):
             return val
         elif isinstance(val, numbers.Number):
             return str(val)
-        elif type(val) == datetime.date:  # datetimes are subclasses of dates.
+        elif type(val) is datetime.date:  # datetimes are subclasses of dates.
             return val.isoformat()
         else:
             raise UnknownType("Don't know what to do with %r of type %s" % (
