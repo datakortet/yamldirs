@@ -70,7 +70,7 @@ def files2yaml(files):
             cur = cur[part]
         txt = ''
         cur[parts[-1]] = txt
-    
+
     yaml = YAML()
     yaml.default_flow_style = False
     stream = io.StringIO()
